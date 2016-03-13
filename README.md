@@ -1,2 +1,2 @@
-# f
+# 𝑓
 A toolkit for functional programming
