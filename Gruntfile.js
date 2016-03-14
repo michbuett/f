@@ -43,9 +43,7 @@ module.exports = function (grunt) {
                 presets: ['es2015']
             },
             dist: {
-                files: {
-                    'compose.js': 'src/compose.js'
-                }
+                files: targetMap,
             }
         },
 
