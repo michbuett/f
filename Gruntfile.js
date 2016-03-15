@@ -3,11 +3,9 @@ module.exports = function (grunt) {
     'use strict';
 
     var sources = grunt.file.expand('src/**/*.js');
-    var targetMap = {};
-
-    for (var i = 0; i < sources.length; i++) {
-        targetMap[sources[i].replace(/^src\//, '')] = sources[i];
-    }
+    var targetMap = getTargetMap(sources, function (src) {
+        return src.replace(/^src\//, '');
+    });
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -42,9 +40,16 @@ module.exports = function (grunt) {
                 sourceMap: true,
                 presets: ['es2015']
             },
+
             dist: {
                 files: targetMap,
-            }
+            },
+
+            demo: {
+                files: getTargetMap(sources, function (src) {
+                    return src.replace(/^src\//, 'demo/js/f/');
+                }),
+            },
         },
 
         clean: {
@@ -61,7 +66,41 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jasmine-nodejs');
 
     grunt.registerTask('dev', ['connect', 'watch',]);
+
     grunt.registerTask('test', [
-        'eslint', 'babel', 'jasmine_nodejs', 'clean:afterTest',
+        'eslint', 'babel:dist', 'jasmine_nodejs', 'clean:afterTest',
     ]);
+
+    grunt.registerTask('demo', [
+        'babel:demo', 'buildDemoLoader',
+    ]);
+
+    grunt.registerTask('buildDemoLoader', function () {
+        grunt.log.writeln('Build webloader');
+
+        var path = require('path');
+        var loader = require('node-module-loader');
+
+        loader.build({
+            root: path.resolve(__dirname, 'demo'),
+            modules: ['./js/f/f'],
+            target: 'demo/js/loader.js',
+            pathmap: {
+                'f': 'js/f',
+            }
+        });
+    });
+
+    function getTargetMap(source, key, val) {
+        var targetMap = {};
+
+        key = key || function (x) { return x; };
+        val = val || function (x) { return x; };
+
+        for (var i = 0; i < sources.length; i++) {
+            targetMap[key(sources[i])] = val(sources[i]);
+        }
+
+        return targetMap;
+    }
 };

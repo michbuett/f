@@ -1,0 +1,23 @@
+html, body  {
+    height: 100%;
+}
+
+#editor-wrap, #output-wrap {
+    top: 10px;
+    position: absolute;
+    width: calc(50% - 20px);
+    height: calc(100% - 20px);
+}
+
+#editor-wrap {
+    left: 10px;
+    overflow: hidden;
+}
+
+#editor {
+    height: 100%;
+}
+
+#output-wrap {
+    right: 10px;
+};
