@@ -2,16 +2,14 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var sources = grunt.file.expand('src/**/*.js');
-    var targetMap = getTargetMap(sources, function (src) {
-        return src.replace(/^src\//, '');
-    });
+    var libSrc = grunt.file.expand('src/lib/**/*.js');
+    var demoSrc = grunt.file.expand('src/demo/**/*.js');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
         eslint: {
-            target: sources
+            all: 'src/**/*.js',
         },
 
         jasmine_nodejs: {
@@ -41,19 +39,29 @@ module.exports = function (grunt) {
                 presets: ['es2015']
             },
 
-            dist: {
-                files: targetMap,
+            test: {
+                files: target(libSrc, 'build/test/'),
+            },
+
+            npm: {
+                files: target(libSrc, 'build/npm/'),
+                options: {
+                    sourceMap: false,
+                },
             },
 
             demo: {
-                files: getTargetMap(sources, function (src) {
-                    return src.replace(/^src\//, 'demo/js/f/');
-                }),
+                files: [].concat(
+                    target(libSrc, 'build/demo/js/lib/'),
+                    target(demoSrc, 'build/demo/js/app/')
+                )
             },
         },
 
         clean: {
-            afterTest: Object.keys(targetMap)
+            demo: [ 'build/demo/**/*' ],
+            npm: [ 'build/npm/**/*' ],
+            test: [ 'build/test/**/*' ],
         },
     });
 
@@ -68,11 +76,11 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['connect', 'watch',]);
 
     grunt.registerTask('test', [
-        'eslint', 'babel:dist', 'jasmine_nodejs', 'clean:afterTest',
+        'eslint', 'clean:test', 'babel:test', 'jasmine_nodejs',
     ]);
 
     grunt.registerTask('demo', [
-        'babel:demo', 'buildDemoLoader',
+        'clean:demo', 'babel:demo', 'buildDemoLoader',
     ]);
 
     grunt.registerTask('buildDemoLoader', function () {
@@ -84,23 +92,19 @@ module.exports = function (grunt) {
         loader.build({
             root: path.resolve(__dirname, 'demo'),
             modules: ['./js/f/f'],
-            target: 'demo/js/loader.js',
+            target: 'build/demo/js/app/loader.js',
             pathmap: {
                 'f': 'js/f',
             }
         });
     });
 
-    function getTargetMap(source, key, val) {
-        var targetMap = {};
-
-        key = key || function (x) { return x; };
-        val = val || function (x) { return x; };
-
-        for (var i = 0; i < sources.length; i++) {
-            targetMap[key(sources[i])] = val(sources[i]);
-        }
-
-        return targetMap;
+    function target(files, target) {
+        return files.map(function (fname) {
+            return {
+                src: fname,
+                dest: fname.replace(/^src\/.*\//, target),
+            };
+        });
     }
 };

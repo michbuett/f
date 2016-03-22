@@ -1,7 +1,7 @@
 describe('compose', function () {
     'use strict';
 
-    var compose = require('../compose');
+    var compose = require('../build/test/compose');
     var f = function (x) { return 'f(' + x + ')'; };
     var g = function (x) { return 'g(' + x + ')'; };
     var h = function (x) { return 'h(' + x + ')'; };

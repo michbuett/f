@@ -1,7 +1,7 @@
 describe('curry', function () {
     'use strict';
 
-    var curry = require('../curry');
+    var curry = require('../build/test/curry');
 
     it('returns a function', function () {
         expect(typeof curry(function () {})).toBe('function');

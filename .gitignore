@@ -1,7 +1,8 @@
-tags
+build/
 node_modules/
 demo/js/loader.js
 demo/js/f
 .grunt/
+tags
 _SpecRunner.html
 *.map
