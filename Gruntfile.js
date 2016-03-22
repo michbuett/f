@@ -18,6 +18,28 @@ module.exports = function (grunt) {
             },
         },
 
+        jasmine: {
+            options: {
+                display: 'short',
+                keepRunner: true,
+                summary: true,
+
+                specs: [
+                    'tests/**/*.spec.js',
+                ],
+            },
+
+            debug: { // for debugging tests
+                src: [
+                    'src/lib/**/*.js',
+                ],
+
+                options: {
+                    template: require('grunt-template-jasmine-nml'),
+                }
+            },
+        },
+
         watch: {
             dev: {
                 files: ['Gruntfile.js', 'src/**/*', 'tests/**/*'],
@@ -68,6 +90,7 @@ module.exports = function (grunt) {
     // load grunt plugins
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-babel');
@@ -76,7 +99,7 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['connect', 'watch',]);
 
     grunt.registerTask('test', [
-        'eslint', 'clean:test', 'babel:test', 'jasmine_nodejs',
+        'eslint', 'clean:test', 'babel:test', 'jasmine_nodejs', 'jasmine',
     ]);
 
     grunt.registerTask('demo', [
