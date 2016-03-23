@@ -43,7 +43,7 @@ module.exports = function (grunt) {
         watch: {
             dev: {
                 files: ['Gruntfile.js', 'src/**/*', 'tests/**/*'],
-                tasks: ['test'],
+                tasks: ['test', 'demo'],
             },
         },
 
@@ -80,6 +80,22 @@ module.exports = function (grunt) {
             },
         },
 
+        copy: {
+            demo: {
+                files: [{
+                    src: ['src/demo/html/index.html'],
+                    dest: 'build/demo',
+                    expand: true,
+                    flatten: true,
+                }, {
+                    src: ['src/demo/css/*'],
+                    dest: 'build/demo/css',
+                    expand: true,
+                    flatten: true,
+                }]
+            },
+        },
+
         clean: {
             demo: [ 'build/demo/**/*' ],
             npm: [ 'build/npm/**/*' ],
@@ -90,6 +106,7 @@ module.exports = function (grunt) {
     // load grunt plugins
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-eslint');
@@ -103,7 +120,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('demo', [
-        'clean:demo', 'babel:demo', 'buildDemoLoader',
+        'clean:demo', 'copy:demo', 'babel:demo', 'buildDemoLoader',
     ]);
 
     grunt.registerTask('buildDemoLoader', function () {
@@ -113,11 +130,11 @@ module.exports = function (grunt) {
         var loader = require('node-module-loader');
 
         loader.build({
-            root: path.resolve(__dirname, 'demo'),
-            modules: ['./js/f/f'],
+            root: path.resolve(__dirname, 'build/demo'),
+            modules: ['./js/lib/f'],
             target: 'build/demo/js/app/loader.js',
             pathmap: {
-                'f': 'js/f',
+                'f': 'js/lib',
             }
         });
     });
