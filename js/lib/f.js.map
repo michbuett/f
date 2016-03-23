@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/lib/f.js"],"names":[],"mappings":";;AAAA,OAAO,OAAP,GAAiB;AACb,aAAS,QAAQ,WAAR,CAAT;AACA,WAAO,QAAQ,SAAR,CAAP;CAFJ","file":"f.js","sourcesContent":["module.exports = {\n    compose: require('./compose'),\n    curry: require('./curry')\n};\n"]}
