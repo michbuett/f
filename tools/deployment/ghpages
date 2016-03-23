@@ -2,8 +2,8 @@
 grunt test && grunt demo
 cd build/demo/
 git init
-git config user.name "Travis-CI"
+git config user.name "michbuett"
 git config user.email "michbuett@gmx.de"
 git add .
 git commit -m "Deployed to Github Pages"
-git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages > /dev/null 2>&1
+git push --force "https://michbuett@github.com/michbuett/f.git" master:gh-pages > /dev/null 2>&1
