@@ -1,18 +1,30 @@
 // curry :: f -> f
 module.exports = function curry(f) {
-    let arity = f.length;
+    var partially = function (f, buffered) {
+        let partiallyApplied = function (...args) {
+            let currArgs = [].concat(buffered).concat(args);
 
-    let buffer = [];
+            if (currArgs.length >= f.length) {
+                return f.apply(this, currArgs);
+            }
 
-    let curryed = function (...args) {
-        buffer = buffer.concat(args);
+            return partially(f, currArgs);
+        };
 
-        if (buffer.length >= arity) {
-            return f.apply(this, buffer);
-        }
+        // override toString for debugging
+        partiallyApplied.toString = function () {
+            if (buffered.length === 0) {
+                return f.toString();
+            }
 
-        return curryed;
+            let argStr = buffered.reduce((str, x) => str + ', ' + JSON.stringify(x));
+            let fname = f.name || '[anonymous]';
+
+            return `${fname}(${argStr})`;
+        };
+
+        return partiallyApplied;
     };
 
-    return curryed;
+    return partially(f, []);
 };

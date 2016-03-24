@@ -13,5 +13,6 @@ describe('curry', function () {
         });
 
         expect(f(1)(2)(3)).toBe('f(1, 2, 3)');
+        expect(f(1)(2)(4)).toBe('f(1, 2, 4)');
     });
 });
