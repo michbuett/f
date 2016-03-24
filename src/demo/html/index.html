@@ -4,8 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <title>DEMO 𝑓</title>
-
-    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/main.css" />
 </head>
@@ -22,15 +20,8 @@ var curry = require('./f/curry');
         <pre id="output"></pre>
     <div>
 
-    <script src ="js/app/app.js"></script>
-    <script src ="js/app/loader.js"></script>
     <script src ="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
-    <script>
-    var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/down");
-        editor.getSession().setMode("ace/mode/javascript");
-
-    var demo = new Demo(editor, document.getElementById('output'));
-    </script>
+    <script src ="js/app/init.js"></script>
+    <script src ="js/app/loader.js"></script>
 </body>
 </html>

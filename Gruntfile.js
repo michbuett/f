@@ -131,7 +131,7 @@ module.exports = function (grunt) {
 
         loader.build({
             root: path.resolve(__dirname, 'build/demo'),
-            modules: ['./js/lib/f'],
+            modules: [ './js/lib/f', './js/app/app.js' ],
             target: 'build/demo/js/app/loader.js',
             pathmap: {
                 'f': 'js/lib',
