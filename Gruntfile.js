@@ -31,7 +31,7 @@ module.exports = function (grunt) {
 
             debug: { // for debugging tests
                 src: [
-                    'src/lib/**/*.js',
+                    'build/test/**/*.js',
                 ],
 
                 options: {
