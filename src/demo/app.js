@@ -15,7 +15,6 @@ module.exports = (function () {
             };
         });
 
-
         var initialCode = localStorage.getItem(STORAGE_KEY);
         if (initialCode) {
             handleCodeChange(initialCode, outEl);
@@ -23,11 +22,18 @@ module.exports = (function () {
             editor.clearSelection();
         }
 
-        editor.focus();
+        var lastCode = editor.getValue();
 
-        editor.on('change', function () {
-            handleCodeChange(editor.getValue(), outEl);
-        });
+        setInterval(() => {
+            var currCode = editor.getValue();
+
+            if (currCode && currCode !== lastCode) {
+                handleCodeChange(currCode, outEl);
+                lastCode = currCode;
+            }
+        }, 1000);
+
+        editor.focus();
     };
 
     return Demo;
