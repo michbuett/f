@@ -4,17 +4,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <title>DEMO 𝑓</title>
-
-    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/main.css" />
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+    <div class="main-title">
+        <h1>REPL-man</h1>
+        <h2>and the mystery of 𝑓</h2>
+    </div>
+
+    <h2 class="caption input">Somebody enters strange code ...</h2>
+    <h2 class="caption output">... meanwhile, on the other side, dark forces assemble and the output appears</h2>
+
     <div id="editor-wrap">
-<div id="editor">// enter your code an be amazed
+<div id="editor">// utility functions
 var compose = require('./f/compose');
 var curry = require('./f/curry');
+var map = require('./f/map');
+
+// types
+var IO = require('./f/IO');
+
+// enter your code an be amazed
 </div>
     </div>
 
@@ -22,15 +35,8 @@ var curry = require('./f/curry');
         <pre id="output"></pre>
     <div>
 
-    <script src ="js/app/app.js"></script>
-    <script src ="js/app/loader.js"></script>
     <script src ="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
-    <script>
-    var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/down");
-        editor.getSession().setMode("ace/mode/javascript");
-
-    var demo = new Demo(editor, document.getElementById('output'));
-    </script>
+    <script src ="js/app/init.js"></script>
+    <script src ="js/app/loader.js"></script>
 </body>
 </html>

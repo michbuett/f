@@ -1,23 +1,123 @@
 html, body  {
     height: 100%;
+    font-family: 'Bangers';
+}
+
+html {
+    background: transparent linear-gradient(rgb(245,230,45) 5%, rgb(205,59,50) 75%, blue 100%) repeat scroll 0% 0%;
+}
+
+body  {
+    background-image:
+    radial-gradient(rgba(205,59,50,.2) 40%, transparent 16%),
+    radial-gradient(rgba(245,230,45,.2) 30%, transparent 16%);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
 }
 
 #editor-wrap, #output-wrap {
-    top: 10px;
     position: absolute;
     width: calc(50% - 20px);
-    height: calc(100% - 20px);
+    box-sizing: border-box;
 }
 
 #editor-wrap {
+    top: 50px;
+    height: calc(100% - 60px);
+    background-color: white;
     left: 10px;
     overflow: hidden;
+    border: 1px solid black;
+    box-shadow: 2px 5px black;
 }
 
 #editor {
     height: 100%;
 }
 
+/** output *********************************************************/
+
 #output-wrap {
     right: 10px;
-};
+    top: 30px;
+    height: calc(100% - 40px);
+}
+
+.output-item {
+    background-color: white;
+    border-width: 2px;
+    border-style: solid;
+    border-color: gray;
+    margin-bottom: 2px;
+}
+
+.output-item > div {
+    padding: 5px;
+}
+
+.output-item .title {
+    font-family: 'Bangers';
+    background-color: lightgray;
+}
+
+.output-item .content {
+    font-family: monospace;
+}
+
+.output-item.error {
+    border-color: darkred;
+}
+
+.output-item.error .title {
+    background-color: #f0a9a9;
+}
+
+.output-item.result {
+    border-color: green;
+}
+
+.output-item.result .title {
+    background-color: #c0f0c9;
+}
+
+/** captions *******************************************************/
+
+.main-title {
+    color: darkred;
+    background: transparent linear-gradient(rgb(245,230,44) 50%, transparent 100%) repeat scroll 0% 0%;
+    padding: 10px 0 100px 10px;
+}
+
+.main-title h1 {
+    font-size: 30px;
+    display: inline;
+}
+
+.main-title h2 {
+    font-size: 20px;
+    display: inline;
+}
+
+.caption {
+    background-color: white;
+    font-size: 20px;
+    box-shadow: 2px 5px black;
+    border: 1px solid black;
+    padding: 5px;
+    display: inline-block;
+    position: absolute;
+    z-index: 10;
+}
+
+.caption.input {
+    bottom: 5px;
+    left: 5px;
+}
+
+.caption.output {
+    right: 5px;
+    top: 5px;
+    width: 300px;
+    text-align: right;
+}
+

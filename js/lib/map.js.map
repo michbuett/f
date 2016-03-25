@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/lib/map.js"],"names":[],"mappings":";;AAAA,IAAI,QAAQ,QAAQ,SAAR,CAAR;;;AAGJ,OAAO,OAAP,GAAiB,MAAM,UAAC,EAAD,EAAK,OAAL;SAAiB,QAAQ,GAAR,CAAY,EAAZ;CAAjB,CAAvB","file":"map.js","sourcesContent":["let curry = require('./curry');\n\n// map :: Functor f => (a -> b) -> f a -> f b\nmodule.exports = curry((fn, functor) => functor.map(fn));\n"]}

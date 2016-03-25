@@ -1,25 +1,39 @@
-"use strict";
+'use strict';
 
 // curry :: f -> f
 module.exports = function curry(f) {
-    var arity = f.length;
+    var partially = function partially(f, buffered) {
+        var partiallyApplied = function partiallyApplied() {
+            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+            }
 
-    var buffer = [];
+            var currArgs = [].concat(buffered).concat(args);
 
-    var curryed = function curryed() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
+            if (currArgs.length >= f.length) {
+                return f.apply(this, currArgs);
+            }
 
-        buffer = buffer.concat(args);
+            return partially(f, currArgs);
+        };
 
-        if (buffer.length >= arity) {
-            return f.apply(this, buffer);
-        }
+        // override toString for debugging
+        partiallyApplied.toString = function () {
+            if (buffered.length === 0) {
+                return f.toString();
+            }
 
-        return curryed;
+            var argStr = buffered.reduce(function (str, x) {
+                return str + ', ' + JSON.stringify(x);
+            });
+            var fname = f.name || '[anonymous]';
+
+            return fname + '(' + argStr + ')';
+        };
+
+        return partiallyApplied;
     };
 
-    return curryed;
+    return partially(f, []);
 };
 //# sourceMappingURL=curry.js.map
