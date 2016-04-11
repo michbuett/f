@@ -14,6 +14,10 @@ module.exports = (function () {
         return 'IO(' + this.performIO() + ')';
     };
 
+    IO.prototype.join = function () {
+        return this.performIO();
+    };
+
     // IO.of :: a -> IO a
     IO.of = value => new IO(() => value);
 

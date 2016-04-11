@@ -9,6 +9,11 @@ describe('IO', function () {
         expect(typeof IO.of('foo').map).toBe('function');
     });
 
+    it('is a monad', function () {
+        expect(typeof IO.of('foo').map).toBe('function');
+        expect(typeof IO.of('foo').join).toBe('function');
+    });
+
     it('allows to perform IO without side effects', function () {
         // prepare
         var fooIO = IO.of('foo');
