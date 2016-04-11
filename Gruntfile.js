@@ -92,6 +92,11 @@ module.exports = function (grunt) {
                     dest: 'build/demo/css',
                     expand: true,
                     flatten: true,
+                }, {
+                    src: ['src/demo/img/*'],
+                    dest: 'build/demo/img',
+                    expand: true,
+                    flatten: true,
                 }]
             },
         },

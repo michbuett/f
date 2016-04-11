@@ -3,6 +3,7 @@ html, body  {
     font-family: 'Bangers';
 }
 
+/*
 html {
     background: transparent linear-gradient(rgb(245,230,45) 5%, rgb(205,59,50) 75%, blue 100%) repeat scroll 0% 0%;
 }
@@ -13,6 +14,12 @@ body  {
     radial-gradient(rgba(245,230,45,.2) 30%, transparent 16%);
     background-size: 60px 60px;
     background-position: 0 0, 30px 30px;
+    background: #AC3232 url('../img/bg.png) repeat-x;
+}
+*/
+
+body  {
+    background: #AC3232 url('../img/bg.png') repeat-x;
 }
 
 #editor-wrap, #output-wrap {
@@ -84,8 +91,10 @@ body  {
 
 .main-title {
     color: darkred;
-    background: transparent linear-gradient(rgb(245,230,44) 50%, transparent 100%) repeat scroll 0% 0%;
-    padding: 10px 0 100px 10px;
+    background: transparent radial-gradient(#FBF236 60%, transparent 75%) no-repeat -50px -50px;
+    padding: 10px 100px 100px 10px;
+    display: inline-block;
+    text-shadow: white 5px 1px 3px;
 }
 
 .main-title h1 {
