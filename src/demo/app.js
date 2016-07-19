@@ -31,7 +31,7 @@ module.exports = (function () {
                 handleCodeChange(currCode, outEl);
                 lastCode = currCode;
             }
-        }, 1000);
+        }, 2000);
 
         editor.focus();
     };
