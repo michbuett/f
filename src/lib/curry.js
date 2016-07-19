@@ -12,19 +12,40 @@ module.exports = function curry(f) {
         };
 
         // override toString for debugging
+        partiallyApplied.__name = f.name;
         partiallyApplied.toString = function () {
-            if (buffered.length === 0) {
-                return f.toString();
+            let fnStr = f.toString();
+            let argNames = fnStr.match(/\(.*?\)/)[0].replace('(', '').replace(')', '').split(/\s*,\s*/);
+
+            for (let i = 0, l = buffered.length; i < l; i++) {
+                fnStr = fnStr.replace(new RegExp('\\b' + argNames[i] + '\\b', 'g'), toDebugString(buffered[i]));
             }
 
-            let argStr = buffered.reduce((str, x) => str + ', ' + JSON.stringify(x));
-            let fname = f.name || '[anonymous]';
-
-            return `${fname}(${argStr})`;
+            return fnStr;
         };
 
         return partiallyApplied;
     };
 
     return partially(f, []);
+
+    /** @private */
+    function toDebugString(anyThing) {
+        if (typeof anyThing === 'function') {
+            return getFunctionName(anyThing);
+        }
+
+        let str = JSON.stringify(anyThing);
+
+        if (str.length > 15) {
+            str = str.substr(0, 12) + '...';
+        }
+
+        return str;
+    }
+
+    /** @private */
+    function getFunctionName(fn) {
+        return fn.__name || fn.name || '[anonymous fn]';
+    }
 };

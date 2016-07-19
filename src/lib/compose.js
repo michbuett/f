@@ -1,7 +1,7 @@
 // compose :: fn... -> fn
 module.exports = function compose(...args) {
 
-    return function (val) {
+    let composed = function (val) {
         let result = val;
 
         for (let i = args.length - 1; i >= 0; i--) {
@@ -10,4 +10,12 @@ module.exports = function compose(...args) {
 
         return result;
     };
+
+    // for debugging
+    composed.__name = args.map(fn => fn.__name || fn.name || '[anonymous fn]').join('∘');
+    composed.toString = () => {
+        return composed.__name;
+    };
+
+    return composed;
 };
