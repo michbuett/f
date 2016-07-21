@@ -8,6 +8,8 @@ let f = {
 
     // types
     IO: require('./IO'),
+    List: require('./List'),
+    Map: require('./Map'),
 
     global: function () {
         let global = typeof window === 'undefined' ? process : window;
