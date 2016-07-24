@@ -3,13 +3,15 @@ let f = {
     chain: require('./chain'),
     compose: require('./compose'),
     curry: require('./curry'),
+    id: require('./id'),
+    join: require('./join'),
     map: require('./map'),
     pipe: require('./pipe'),
 
     // types
     IO: require('./IO'),
     List: require('./List'),
-    Map: require('./Map'),
+    FMap: require('./Map'),
 
     global: function () {
         let global = typeof window === 'undefined' ? process : window;
