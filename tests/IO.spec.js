@@ -1,7 +1,7 @@
 describe('IO', function () {
     'use strict';
 
-    var IO = require('../build/test/IO');
+    var IO = require('../src/IO');
 
     it('is a functor', function () {
         expect(typeof IO).toBe('function');

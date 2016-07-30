@@ -1,7 +1,7 @@
 describe('map', function () {
     'use strict';
 
-    var map = require('../build/test/map');
+    var map = require('../src/map');
 
     it('is curried', function () {
         expect(typeof map(function () {})).toBe('function');

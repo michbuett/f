@@ -1,7 +1,7 @@
 describe('chain', function () {
     'use strict';
 
-    var chain = require('../build/test/chain');
+    var chain = require('../src/chain');
 
     it('allows to chain a function call to a monad', function () {
         // prepare

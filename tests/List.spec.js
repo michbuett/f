@@ -1,11 +1,11 @@
 describe('List', function () {
     'use strict';
 
-    var List = require('../build/test/List');
-    var map = require('../build/test/map');
-    var compose = require('../build/test/compose');
-    var id = require('../build/test/id');
-    var join = require('../build/test/join');
+    var List = require('../src/List');
+    var map = require('../src/map');
+    var compose = require('../src/compose');
+    var id = require('../src/id');
+    var join = require('../src/join');
 
     var l = List.of([1, 2, 3]);
 

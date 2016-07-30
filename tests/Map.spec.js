@@ -1,11 +1,11 @@
 describe('Map', function () {
     'use strict';
 
-    var Map = require('../build/test/Map');
-    var map = require('../build/test/map');
-    var compose = require('../build/test/compose');
-    var id = require('../build/test/id');
-    var join = require('../build/test/join');
+    var Map = require('../src/Map');
+    var map = require('../src/map');
+    var compose = require('../src/compose');
+    var id = require('../src/id');
+    var join = require('../src/join');
 
     describe('key value store', function () {
         var m = Map.of({foo: 1, bar: 2, baz: 3});

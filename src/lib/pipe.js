@@ -1,4 +1,5 @@
-let compose = require('./compose');
-
 // pipe :: f x -> g -> g f x
-module.exports = (...args) => compose.apply(null, args.reverse());
+module.exports = (function () {
+    let compose = require('./compose');
+    return (...args) => compose.apply(null, args.reverse());
+}());

@@ -2,6 +2,7 @@
 module.exports = function (grunt) {
     'use strict';
 
+
     var libSrc = grunt.file.expand('src/lib/**/*.js');
     var demoSrc = grunt.file.expand('src/demo/**/*.js');
 
@@ -14,7 +15,7 @@ module.exports = function (grunt) {
 
         jasmine_nodejs: {
             all: {
-                specs: ['tests/**'],
+                specs: ['build/test/tests/**'],
             },
         },
 
@@ -25,13 +26,14 @@ module.exports = function (grunt) {
                 summary: true,
 
                 specs: [
-                    'tests/**/*.spec.js',
+                    'build/test/tests/**/*.spec.js',
                 ],
             },
 
-            debug: { // for debugging tests
+            all: {
                 src: [
-                    'build/test/**/*.js',
+                    'build/test/fantasy-land/**/*.js',
+                    'build/test/src/**/*.js',
                 ],
 
                 options: {
@@ -62,7 +64,13 @@ module.exports = function (grunt) {
             },
 
             test: {
-                files: target(libSrc, 'build/test/'),
+                files: []
+                    .concat(redirectPath('src/lib', 'build/test/src'))
+                    .concat(redirectPath('tests', 'build/test/tests/'))
+            },
+
+            fantasyLand: {
+                files: target(grunt.file.expand('node_modules/fantasy-land/**/*.js')),
             },
 
             npm: {
@@ -109,19 +117,19 @@ module.exports = function (grunt) {
     });
 
     // load grunt plugins
+    grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-eslint');
-    grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-jasmine-nodejs');
 
     grunt.registerTask('dev', ['connect', 'watch',]);
 
     grunt.registerTask('test', [
-        'eslint', 'clean:test', 'babel:test', 'jasmine_nodejs', 'jasmine',
+        'eslint', 'clean:test', 'babel:test', 'babel:fantasyLand', 'jasmine_nodejs', 'jasmine',
     ]);
 
     grunt.registerTask('demo', [
@@ -149,6 +157,16 @@ module.exports = function (grunt) {
             return {
                 src: fname,
                 dest: fname.replace(/^src\/.*\//, target),
+            };
+        });
+    }
+
+    function redirectPath(srcPath, targetPath) {
+        var files = grunt.file.expand(srcPath + '/**/*.js');
+        return files.map(function (fname) {
+            return {
+                src: fname,
+                dest: fname.replace(srcPath, targetPath),
             };
         });
     }

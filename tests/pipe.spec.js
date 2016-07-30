@@ -1,7 +1,7 @@
 describe('pipe', function () {
     'use strict';
 
-    var pipe = require('../build/test/pipe');
+    var pipe = require('../src/pipe');
     var f = function f(x) { return x + ' f'; };
     var g = function g(x) { return x + ' g'; };
     var h = function h(x) { return x + ' h'; };
