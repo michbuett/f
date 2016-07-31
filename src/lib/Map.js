@@ -22,20 +22,33 @@ module.exports = (function () {
         // Monad m => m (m a) -> m a
         ['join', function () {
             let merged = {};
+            let atTopLevel = true;
+
             for (let outerKey in this._data) {
                 if (this._data.hasOwnProperty(outerKey)) {
-                    let innerData = this._data[outerKey].toJS();
+                    let innerData = this._data[outerKey];
 
-                    for (let innerKey in innerData) {
-                        if (innerData.hasOwnProperty(innerKey)) {
-                            merged[outerKey + innerKey] = innerData[innerKey];
+                    if (FMap.is(innerData)) {
+                        innerData = innerData._data;
+                        atTopLevel = false;
+
+                        for (let innerKey in innerData) {
+                            if (innerData.hasOwnProperty(innerKey)) {
+                                merged[outerKey + innerKey] = innerData[innerKey];
+                            }
                         }
+                    } else {
+                        merged[outerKey] = innerData;
                     }
                 }
             }
 
-            return FMap.of(merged);
+            return atTopLevel ? merged : FMap.of(merged);
         }],
+
+        ['chain', function (fn) { return this.map(fn).join(); }],
+
+        ['eq', function (any) { return FMap.equals(any, this); }],
 
         ['toJS', function () {
             return this._data;
@@ -46,34 +59,45 @@ module.exports = (function () {
         ['toJSON', stringify]
     ];
 
-    let FMap = {
+    const FMap = {
         // Map.of :: a -> Map a
         of: (data) => {
-            if (data.constructor !== Object) {
-                return FMap.of({ '': data });
+            if (data.constructor === Object) {
+                return createMap(data);
             }
 
-            let ctext = { _data: data };
-            let newMap = bind(MAP_FN, ctext);
-
-            newMap._data = data;
-            newMap._typeId = UUID;
-
-            for (let i = 0, l = MAP_METHODS.length; i < l; i++) {
-                let key = MAP_METHODS[i][0];
-                let fun = MAP_METHODS[i][1];
-
-                newMap[key] = fun;
-            }
-
-            return newMap;
+            return createMap({ '': data });
         },
 
         // Map.is :: a -> Boolean
-        is: (any) => any && any._typeId === UUID
+        is: (any) => any && any._typeId === UUID,
+
+        // Map a, Map b => a -> b -> Boolean
+        equals: (a, b) => FMap.is(a) && FMap.is(b) && a.toString() === b.toString()
     };
 
     return FMap;
+
+    ///////////////////////////////////////////////////////////////////////////
+    // PRIVATE HELPER
+
+    /** @private */
+    function createMap(data) {
+        let ctext = { _data: data };
+        let newMap = bind(MAP_FN, ctext);
+
+        newMap._data = data;
+        newMap._typeId = UUID;
+
+        for (let i = 0, l = MAP_METHODS.length; i < l; i++) {
+            let key = MAP_METHODS[i][0];
+            let fun = MAP_METHODS[i][1];
+
+            newMap[key] = fun;
+        }
+
+        return newMap;
+    }
 
     /** @private */
     function bind(fn, context) {

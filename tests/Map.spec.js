@@ -46,7 +46,7 @@ describe('Map', function () {
         });
     });
 
-    describe('monadic nature', function () {
+    describe('functional paradigm', function () {
         var m = Map.of({ foo: 'bar', ping: 'pong' });
 
         it('is pointed', function () {
