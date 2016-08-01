@@ -3,10 +3,12 @@ let f = {
     chain: require('./chain'),
     compose: require('./compose'),
     curry: require('./curry'),
+    equals: require('./equals'),
     id: require('./id'),
     join: require('./join'),
     map: require('./map'),
     pipe: require('./pipe'),
+    shuffle: require('./shuffle'),
 
     // types
     IO: require('./IO'),
