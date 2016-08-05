@@ -4,9 +4,11 @@ let f = {
     compose: require('./compose'),
     curry: require('./curry'),
     equals: require('./equals'),
+    fuse2: require('./fuse2'),
     id: require('./id'),
     join: require('./join'),
     map: require('./map'),
+    memoize: require('./memoize'),
     pipe: require('./pipe'),
     shuffle: require('./shuffle'),
 
