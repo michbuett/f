@@ -57,12 +57,13 @@ describe('Map', function () {
         it('can be flattened using "join"', function () {
             var m1 = Map.of({ foo: 'bar' });
             var m2 = Map.of({ ping: 'pong' });
-            var mm = Map.of({ map1: m1, map2: m2 });
+            var mm = Map.of({ foo: m1, ping: m2 });
 
             var flatM = mm.join();
 
             expect(Map.is(flatM)).toBeTruthy();
-            expect(flatM.toJS()).toEqual({ map1foo: 'bar', map2ping: 'pong' });
+            expect(flatM.toString()).toEqual('Map({"foo":"bar","ping":"pong"})');
+            expect(flatM.join()).toEqual({ foo: 'bar', ping: 'pong' });
         });
 
         it('fullfills the identity laws', function () {

@@ -2,12 +2,20 @@ module.exports = (function () {
 
     const UUID = 'ad72ce92-1923-40fe-8408-5d2a4976851a';
 
-    const MAP_FN = function (key) { return this._data[key || '']; };
+    const MAP_FN = function (key) {
+        if (isHash(this._data)) {
+            return this._data[key];
+        }
+        return this._data;
+    };
 
     const MAP_METHODS = [
         ['map', function (fn) {
-            let newData = {};
+            if (!isHash(this._data)) {
+                return FMap.of(fn(this._data));
+            }
 
+            let newData = {};
             for (let key in this._data) {
                 if (!this._data.hasOwnProperty(key)) {
                     continue;
@@ -21,6 +29,10 @@ module.exports = (function () {
 
         // Monad m => m (m a) -> m a
         ['join', function () {
+            if (!isHash(this._data)) {
+                return this._data;
+            }
+
             let merged = {};
             let atTopLevel = true;
 
@@ -29,14 +41,8 @@ module.exports = (function () {
                     let innerData = this._data[outerKey];
 
                     if (FMap.is(innerData)) {
-                        innerData = innerData._data;
                         atTopLevel = false;
-
-                        for (let innerKey in innerData) {
-                            if (innerData.hasOwnProperty(innerKey)) {
-                                merged[outerKey + innerKey] = innerData[innerKey];
-                            }
-                        }
+                        merged[outerKey] = innerData(outerKey);
                     } else {
                         merged[outerKey] = innerData;
                     }
@@ -48,7 +54,7 @@ module.exports = (function () {
 
         ['chain', function (fn) { return this.map(fn).join(); }],
 
-        ['eq', function (any) { return FMap.equals(any, this); }],
+        ['equals', function (any) { return FMap.equals(any, this); }],
 
         ['toJS', function () {
             return this._data;
@@ -61,18 +67,12 @@ module.exports = (function () {
 
     const FMap = {
         // Map.of :: a -> Map a
-        of: (data) => {
-            if (data.constructor === Object) {
-                return createMap(data);
-            }
-
-            return createMap({ '': data });
-        },
+        of: (data) => createMap(data),
 
         // Map.is :: a -> Boolean
         is: (any) => any && any._typeId === UUID,
 
-        // Map a, Map b => a -> b -> Boolean
+        // Map.equals :: Map a, Map b => a -> b -> Boolean
         equals: (a, b) => FMap.is(a) && FMap.is(b) && a.toString() === b.toString()
     };
 
@@ -108,10 +108,15 @@ module.exports = (function () {
 
     /** private */
     function stringify() {
-        if (this._data.hasOwnProperty('')) {
-            return 'Map(' + this._data[''] + ')';
+        if (!isHash(this._data)) {
+            return 'Map(' + this._data + ')';
         }
 
         return 'Map(' + JSON.stringify(this._data) + ')';
+    }
+
+    /** private */
+    function isHash(any) {
+        return any && any.constructor === Object;
     }
 }());
